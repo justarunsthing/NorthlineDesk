@@ -20,3 +20,4 @@ The first diagram is the new process. The second is the comparison. The in-memor
 - Data project that applies the migrations, reads INV-1001, calls the procedure and the match calculator, and writes the shadow row.
 - Sequence diagrams for the service match and the shadow comparison.
 - Shadow sequence diagrams, so each reply returns to the participant that was called.
+- Match service. POST /match returns the in-memory decision for INV-1001. Shadow comparison waits for SQL.
