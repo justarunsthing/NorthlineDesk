@@ -1,6 +1,8 @@
 # Changelog
 
-One bullet per commit. Dates are Europe/London.
+One bullet per commit.
+
+The clerk is the person on the Northline desk. The match page is the screen they will build later. The procedure and the invoice tables are already in `001_estate.sql`. Twelve lines at £102.00 produce £1,224.00. The procedure then sets unmatched to 0 itself, so callouts 7 to 12 never appear as a shortage.
 
 ## Unreleased
 
@@ -11,3 +13,4 @@ One bullet per commit. Dates are Europe/London.
 - Retirement migration that drops `dbo.usp_MatchInvoice` after the cutover.
 - `partial-receipt` explanation for INV-1001, applied at promotion rather than during migration.
 - Match calculator that approves the received quantity, with tests for the £612.00 partial receipt.
+- Sequence diagram of the legacy match for INV-1001.
