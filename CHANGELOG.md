@@ -2,12 +2,6 @@
 
 One bullet per commit.
 
-The clerk is the person on the Northline desk. The match page is the screen they will build later. The procedure and the invoice tables are already in `001_estate.sql`. Twelve lines at £102.00 produce £1,224.00. The procedure then sets unmatched to 0 itself, so callouts 7 to 12 never appear as a shortage.
-
-The first diagram is the new process. The second is the comparison. The in-memory tests never enter either diagram. They call `MatchCalculator` and `ShadowGate` directly.
-
-The inner fences above are the Mermaid blocks. In the real file, each diagram sits in a normal ` ```mermaid ` fence, the same way as `spec/shadow-flow.md`.
-
 ## Unreleased
 
 ### Added
@@ -38,3 +32,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - CI workflow. Every push runs the tests against SQL Server and requires Gatehouse to be clean.
 - Demo red-gate workflow. A manual run rejects the three bad fixtures and finishes red on purpose.
 - Deploy workflow. `deploy` publishes the desk and the match API, applies the Bicep file, and runs migration 001 on the staging environment. `promote` and `reset` run on the production environment.
+- Azure and GitHub setup checklist. The signup, the resource group, and the federated credential stay until the first deploy.
