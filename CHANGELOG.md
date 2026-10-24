@@ -36,3 +36,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Azure template for one UK South Windows plan, the desk, the staging slot, the match API, SQL, and Key Vault. `MatchMode` swaps. The availability tests expect HTTP 200 and `612.00`. The budget stays off until an email is set.
 - Diagram of the UK South plan: production starts on the procedure, staging starts on the match service, and a swap carries `MatchMode` only.
 - CI workflow. Every push runs the tests against SQL Server and requires Gatehouse to be clean.
+- Demo red-gate workflow. A manual run rejects the three bad fixtures and finishes red on purpose.

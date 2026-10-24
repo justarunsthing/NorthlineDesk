@@ -1,0 +1,24 @@
+name: Demo red gate
+
+on:
+  workflow_dispatch:
+
+jobs:
+  shallow-test-is-rejected:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: This job is meant to go red
+        run: |
+          set +e
+          dotnet run --project tools/Northline.Gatehouse --configuration Release -- --fixtures
+          status=$?
+          if [[ $status -eq 0 ]]; then
+            echo "The fixtures were accepted. The gate is not doing its job." >&2
+            exit 1
+          fi
+          echo "Gatehouse rejected the fixtures. This red X is the demo."
+          exit 1
