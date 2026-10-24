@@ -4,6 +4,8 @@ One bullet per commit.
 
 The clerk is the person on the Northline desk. The match page is the screen they will build later. The procedure and the invoice tables are already in `001_estate.sql`. Twelve lines at £102.00 produce £1,224.00. The procedure then sets unmatched to 0 itself, so callouts 7 to 12 never appear as a shortage.
 
+The first diagram is the new process. The second is the comparison. The in-memory tests never enter either diagram. They call `MatchCalculator` and `ShadowGate` directly.
+
 ## Unreleased
 
 ### Added
@@ -16,3 +18,4 @@ The clerk is the person on the Northline desk. The match page is the screen they
 - Sequence diagram of the legacy match for INV-1001.
 - Shadow gate that blocks promotion unless the INV-1001 difference is the explained partial receipt.
 - Data project that applies the migrations, reads INV-1001, calls the procedure and the match calculator, and writes the shadow row.
+- Sequence diagrams for the service match and the shadow comparison.
