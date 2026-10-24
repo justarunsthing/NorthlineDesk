@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      sql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_SA_PASSWORD: Northline_CI_Only_123
+        ports:
+          - 1433:1433
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Wait for SQL
+        run: |
+          for i in $(seq 1 30); do
+            (echo >/dev/tcp/127.0.0.1/1433) >/dev/null 2>&1 && exit 0
+            sleep 5
+          done
+          echo "SQL did not accept a connection on 1433" >&2
+          exit 1
+      - name: Test
+        env:
+          NORTHLINE_SQL: "Server=localhost,1433;Database=master;User ID=sa;Password=Northline_CI_Only_123;Encrypt=True;TrustServerCertificate=True"
+          REQUIRE_SQL: "1"
+        run: dotnet test --configuration Release
+      - name: Gatehouse is clean
+        run: dotnet run --project tools/Northline.Gatehouse --configuration Release
