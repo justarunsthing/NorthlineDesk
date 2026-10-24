@@ -33,3 +33,4 @@ One bullet per commit.
 - Demo red-gate workflow. A manual run rejects the three bad fixtures and finishes red on purpose.
 - Deploy workflow. `deploy` publishes the desk and the match API, applies the Bicep file, and runs migration 001 on the staging environment. `promote` and `reset` run on the production environment.
 - Azure and GitHub setup checklist. The signup, the resource group, and the federated credential stay until the first deploy.
+- Cutover note. Promote records `partial-receipt`, swaps `MatchMode`, then drops the procedure. Reset puts that state back and also waits for the production reviewer.
