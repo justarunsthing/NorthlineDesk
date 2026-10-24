@@ -37,3 +37,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Diagram of the UK South plan: production starts on the procedure, staging starts on the match service, and a swap carries `MatchMode` only.
 - CI workflow. Every push runs the tests against SQL Server and requires Gatehouse to be clean.
 - Demo red-gate workflow. A manual run rejects the three bad fixtures and finishes red on purpose.
+- Deploy workflow. `deploy` publishes the desk and the match API, applies the Bicep file, and runs migration 001 on the staging environment. `promote` and `reset` run on the production environment.

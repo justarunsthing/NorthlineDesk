@@ -1,0 +1,145 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: deploy, promote, or reset
+        type: choice
+        options:
+          - deploy
+          - promote
+          - reset
+        default: deploy
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  desk:
+    if: inputs.action == 'deploy'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - name: Publish the desk
+        run: msbuild src\NorthlineDesk\NorthlineDesk.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Folder /p:publishUrl=${{ github.workspace }}\desk-publish\
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desk
+          path: desk-publish
+
+  api:
+    if: inputs.action == 'deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Publish the match service
+        run: dotnet publish src/Northline.MatchApi/Northline.MatchApi.csproj --configuration Release --output api-publish
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api
+          path: api-publish
+
+  deploy:
+    needs: [desk, api]
+    if: inputs.action == 'deploy'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: desk
+          path: desk-publish
+      - uses: actions/download-artifact@v4
+        with:
+          name: api
+          path: api-publish
+      - name: Infrastructure, schema, and both slots
+        env:
+          AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          AZURE_OBJECT_ID: ${{ secrets.AZURE_OBJECT_ID }}
+          SQL_ADMIN_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+          SHADOW_KEY: ${{ secrets.SHADOW_KEY }}
+          BUDGET_EMAIL: ${{ secrets.BUDGET_EMAIL }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/azure.sh
+          scripts/azure.sh infra
+          scripts/azure.sh secrets
+          scripts/azure.sh migrate 1
+          eval "$(az deployment group show -g "$AZURE_RESOURCE_GROUP" -n northlinedesk --query properties.outputs -o json | jq -r '
+            "DESK=\(.deskName.value)",
+            "API=\(.apiName.value)"
+          ')"
+          (cd desk-publish && zip -qr ../desk.zip .)
+          (cd api-publish && zip -qr ../api.zip .)
+          az webapp deploy -g "$AZURE_RESOURCE_GROUP" -n "$DESK" --src-path desk.zip --type zip --async false
+          az webapp deploy -g "$AZURE_RESOURCE_GROUP" -n "$DESK" --slot staging --src-path desk.zip --type zip --async false
+          az webapp deploy -g "$AZURE_RESOURCE_GROUP" -n "$API" --src-path api.zip --type zip --async false
+          az webapp restart -g "$AZURE_RESOURCE_GROUP" -n "$DESK"
+          az webapp restart -g "$AZURE_RESOURCE_GROUP" -n "$DESK" --slot staging
+          az webapp restart -g "$AZURE_RESOURCE_GROUP" -n "$API"
+          scripts/azure.sh smoke
+
+  promote:
+    if: inputs.action == 'promote'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Explain, swap, retire
+        env:
+          AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          SQL_ADMIN_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+          SHADOW_KEY: ${{ secrets.SHADOW_KEY }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          chmod +x scripts/azure.sh
+          scripts/azure.sh promote
+
+  reset:
+    if: inputs.action == 'reset'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Restore the procedure and the slot settings
+        env:
+          AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          SQL_ADMIN_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+          SHADOW_KEY: ${{ secrets.SHADOW_KEY }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          chmod +x scripts/azure.sh
+          scripts/azure.sh reset
