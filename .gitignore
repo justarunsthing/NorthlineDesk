@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+*.user
+TestResults/
+appsettings.Local.json
+Web.Local.config
+.dotnet/
+*.nupkg
