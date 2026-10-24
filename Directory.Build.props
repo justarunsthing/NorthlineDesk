@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

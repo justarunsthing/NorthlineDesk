@@ -10,3 +10,4 @@ One bullet per commit. Dates are Europe/London.
 - Estate migration and diagram: supplier, purchase order, receipt, and invoice tables, the PO-1001 seed, `dbo.usp_MatchInvoice`, and `db/estate.md`.
 - Retirement migration that drops `dbo.usp_MatchInvoice` after the cutover.
 - `partial-receipt` explanation for INV-1001, applied at promotion rather than during migration.
+- Match calculator that approves the received quantity, with tests for the £612.00 partial receipt.
