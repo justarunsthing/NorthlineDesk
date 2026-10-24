@@ -1,0 +1,6 @@
+# Packages the match estate is allowed to reference.
+# Gatehouse rejects any other PackageReference.
+Microsoft.Data.SqlClient
+Microsoft.NET.Test.Sdk
+xunit
+xunit.runner.visualstudio
