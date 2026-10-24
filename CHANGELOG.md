@@ -28,3 +28,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Sequence diagram for a clean Gatehouse run and for the fixture run that must fail.
 - Fenced MCP server `northline-match` with `match_invoice` and `describe_purchase_order`. It answers £612.00 and 6 unmatched callouts, and it refuses SQL. The purchase-order tool does not return John Doe.
 - Sequence diagram of the MCP host: `match_invoice` returns £612.00, and a SQL call is refused before the calculator runs.
+- Agent boundary in `AGENTS.md` and `harness/AGENTS.md`, with the match rule and the match-invoice skill. `baseline/manual.json` and `baseline/agent.json` stay unmeasured.
