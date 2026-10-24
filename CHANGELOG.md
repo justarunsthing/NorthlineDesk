@@ -6,6 +6,8 @@ The clerk is the person on the Northline desk. The match page is the screen they
 
 The first diagram is the new process. The second is the comparison. The in-memory tests never enter either diagram. They call `MatchCalculator` and `ShadowGate` directly.
 
+The inner fences above are the Mermaid blocks. In the real file, each diagram sits in a normal ` ```mermaid ` fence, the same way as `spec/shadow-flow.md`.
+
 ## Unreleased
 
 ### Added
@@ -25,3 +27,4 @@ The first diagram is the new process. The second is the comparison. The in-memor
 - Gatehouse scan for a shallow test, a package off the allow list, a drop outside migration 002, and a write to the human tables.
 - Sequence diagram for a clean Gatehouse run and for the fixture run that must fail.
 - Fenced MCP server `northline-match` with `match_invoice` and `describe_purchase_order`. It answers £612.00 and 6 unmatched callouts, and it refuses SQL. The purchase-order tool does not return John Doe.
+- Sequence diagram of the MCP host: `match_invoice` returns £612.00, and a SQL call is refused before the calculator runs.

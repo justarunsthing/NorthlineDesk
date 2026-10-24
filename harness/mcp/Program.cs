@@ -16,6 +16,7 @@ while (true)
 
 
     var root = document.RootElement;
+
     if (!root.TryGetProperty("id", out var idElement))
         continue;
 
