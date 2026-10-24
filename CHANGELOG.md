@@ -14,3 +14,4 @@ The clerk is the person on the Northline desk. The match page is the screen they
 - `partial-receipt` explanation for INV-1001, applied at promotion rather than during migration.
 - Match calculator that approves the received quantity, with tests for the £612.00 partial receipt.
 - Sequence diagram of the legacy match for INV-1001.
+- Shadow gate that blocks promotion unless the INV-1001 difference is the explained partial receipt.
