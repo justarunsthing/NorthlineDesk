@@ -9,3 +9,4 @@ One bullet per commit. Dates are Europe/London.
 - 24 October 2026. Repository skeleton and the support complaint for INV-1001. The tests have to assert £612.00 and 6 unmatched callouts.
 - Estate migration and diagram: supplier, purchase order, receipt, and invoice tables, the PO-1001 seed, `dbo.usp_MatchInvoice`, and `db/estate.md`.
 - Retirement migration that drops `dbo.usp_MatchInvoice` after the cutover.
+- `partial-receipt` explanation for INV-1001, applied at promotion rather than during migration.
