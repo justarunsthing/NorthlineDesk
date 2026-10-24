@@ -24,3 +24,4 @@ The first diagram is the new process. The second is the comparison. The in-memor
 - Web Forms desk with the Reading depot page, the match page, and the purchase order that shows John Doe.
 - Gatehouse scan for a shallow test, a package off the allow list, a drop outside migration 002, and a write to the human tables.
 - Sequence diagram for a clean Gatehouse run and for the fixture run that must fail.
+- Fenced MCP server `northline-match` with `match_invoice` and `describe_purchase_order`. It answers £612.00 and 6 unmatched callouts, and it refuses SQL. The purchase-order tool does not return John Doe.

@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\Northline.Match\Northline.Match.csproj" />
     <ProjectReference Include="..\..\src\Northline.Data\Northline.Data.csproj" />
     <ProjectReference Include="..\..\tools\Northline.Gatehouse\Northline.Gatehouse.csproj" />
+    <ProjectReference Include="..\..\harness\mcp\Northline.Mcp.csproj" />
   </ItemGroup>
 
 </Project>
