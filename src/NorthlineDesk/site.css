@@ -1,0 +1,105 @@
+:root {
+	color: #1c2430;
+	background: #f4f1ea;
+	font-family: "Segoe UI", "Source Sans 3", sans-serif;
+	line-height: 1.45;
+}
+
+body {
+	margin: 0;
+}
+
+.wrap {
+	max-width: 42rem;
+	margin: 0 auto;
+	padding: 2rem 1.25rem 4rem;
+}
+
+header {
+	border-bottom: 1px solid #d5cfc3;
+	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
+}
+
+.mark {
+	margin: 0;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	font-size: 0.75rem;
+	color: #5c6570;
+}
+
+h1 {
+	margin: 0.25rem 0 0;
+	font-size: 1.75rem;
+	font-weight: 600;
+}
+
+a {
+	color: #0f3d4c;
+}
+
+.path {
+	display: inline-block;
+	margin: 0 0 1rem;
+	padding: 0.2rem 0.5rem;
+	border: 1px solid #d5cfc3;
+	background: #fff;
+	font-size: 0.9rem;
+}
+
+.figure {
+	margin: 0.5rem 0 0;
+	font-size: 2.5rem;
+	font-weight: 600;
+	letter-spacing: -0.03em;
+}
+
+.label {
+	margin: 1.25rem 0 0;
+	color: #5c6570;
+	font-size: 0.85rem;
+}
+
+.note, .error {
+	margin-top: 1rem;
+}
+
+.error {
+	padding: 0.75rem 1rem;
+	background: #fff;
+	border: 1px solid #8a3b2b;
+	color: #8a3b2b;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: #fff;
+	margin-top: 0.5rem;
+}
+
+th, td {
+	text-align: left;
+	padding: 0.4rem 0.5rem;
+	border-bottom: 1px solid #e4dfd4;
+}
+
+th {
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #5c6570;
+}
+
+	td.num, th.num {
+		text-align: right;
+	}
+
+tr.missing td {
+	color: #8a3b2b;
+}
+
+nav a {
+	margin-right: 1rem;
+}
