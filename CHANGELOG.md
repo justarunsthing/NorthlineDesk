@@ -32,3 +32,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Sequence diagram of a host following the harness: read the boundary, edit `MatchCalculator`, run Gatehouse, and leave the baseline unmeasured.
 - Local SQL Server in `docker-compose.yml`. File tests lock the procedure text, migration 002, and the ticket script. `Cutover_story_against_sql` runs that cutover against the container and restores version 1.
 - Migrator command. `--through` applies migrations, `--explain` records ticket `partial-receipt`, `--assert-retired` checks the procedure is gone, and `--reset-to 1` restores version 1.
+- Sequence diagram of the migrator rehearsal: apply through 1, record `partial-receipt`, drop the procedure, and reset to version 1.
