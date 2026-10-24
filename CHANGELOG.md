@@ -34,3 +34,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Migrator command. `--through` applies migrations, `--explain` records ticket `partial-receipt`, `--assert-retired` checks the procedure is gone, and `--reset-to 1` restores version 1.
 - Sequence diagram of the migrator rehearsal: apply through 1, record `partial-receipt`, drop the procedure, and reset to version 1.
 - Azure template for one UK South Windows plan, the desk, the staging slot, the match API, SQL, and Key Vault. `MatchMode` swaps. The availability tests expect HTTP 200 and `612.00`. The budget stays off until an email is set.
+- Diagram of the UK South plan: production starts on the procedure, staging starts on the match service, and a swap carries `MatchMode` only.
