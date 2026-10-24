@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Northline.Match\Northline.Match.csproj" />
+    <ProjectReference Include="..\..\src\Northline.Data\Northline.Data.csproj" />
   </ItemGroup>
 
 </Project>
