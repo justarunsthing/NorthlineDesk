@@ -23,3 +23,4 @@ The first diagram is the new process. The second is the comparison. The in-memor
 - Match service. POST /match returns the in-memory decision for INV-1001. Shadow comparison waits for SQL.
 - Web Forms desk with the Reading depot page, the match page, and the purchase order that shows John Doe.
 - Gatehouse scan for a shallow test, a package off the allow list, a drop outside migration 002, and a write to the human tables.
+- Sequence diagram for a clean Gatehouse run and for the fixture run that must fail.
