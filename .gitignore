@@ -7,3 +7,4 @@ appsettings.Local.json
 Web.Local.config
 .dotnet/
 *.nupkg
+infra/main.json
