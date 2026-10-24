@@ -1,4 +1,3 @@
-```markdown
 # Northline desk
 
 Northline maintains a depot desk for callout work. A supplier does the work, the depot records what arrived, and a clerk matches the supplier's invoice to the purchase order before it is approved. The screen is a .NET Framework Web Forms application. The match itself is a stored procedure, `dbo.usp_MatchInvoice`.
@@ -86,4 +85,3 @@ The clerk's screen is the same screen. The decision behind INV-1001 changed from
 10. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
 11. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
 12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup. The cost table stays blank until a deploy is exported.
-```
