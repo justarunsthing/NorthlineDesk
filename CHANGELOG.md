@@ -30,3 +30,4 @@ The inner fences above are the Mermaid blocks. In the real file, each diagram si
 - Sequence diagram of the MCP host: `match_invoice` returns £612.00, and a SQL call is refused before the calculator runs.
 - Agent boundary in `AGENTS.md` and `harness/AGENTS.md`, with the match rule and the match-invoice skill. `baseline/manual.json` and `baseline/agent.json` stay unmeasured.
 - Sequence diagram of a host following the harness: read the boundary, edit `MatchCalculator`, run Gatehouse, and leave the baseline unmeasured.
+- Local SQL Server in `docker-compose.yml`. File tests lock the procedure text, migration 002, and the ticket script. `Cutover_story_against_sql` runs that cutover against the container and restores version 1.
