@@ -26,12 +26,12 @@ The object id is not the client id. Bicep puts the object id on the Key Vault ac
 
 ## 3. Federated credentials
 
-Add two federated credentials on the app registration.
+Add two federated credentials on the app registration. This repository was created after 15 July 2026, so the subject includes the owner id and the repository id.
 
 | Credential name | Subject |
 | --- | --- |
-| `github-staging` | `repo:justarunsthing/NorthlineDesk:environment:staging` |
-| `github-production` | `repo:justarunsthing/NorthlineDesk:environment:production` |
+| `github-staging` | `repo:justarunsthing@207272569/NorthlineDesk@1432149576:environment:staging` |
+| `github-production` | `repo:justarunsthing@207272569/NorthlineDesk@1432149576:environment:production` |
 
 Issuer: `https://token.actions.githubusercontent.com`. Audience: `api://AzureADTokenExchange`.
 
