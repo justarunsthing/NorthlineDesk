@@ -32,6 +32,7 @@ One bullet per commit.
 - CI workflow. Every push runs the tests against SQL Server and requires Gatehouse to be clean.
 - Demo red-gate workflow. A manual run rejects the three bad fixtures and finishes red on purpose.
 - Deploy workflow. `deploy` publishes the desk and the match API, applies the Bicep file, and runs migration 001 on the staging environment. `promote` and `reset` run on the production environment.
+- The red Deploy runs, and the change that made each one pass, are in `docs/deploy-notes.md`.
 - Azure and GitHub setup checklist. The signup, the resource group, and the federated credential stay until the first deploy.
 - Cutover note. Promote records `partial-receipt`, swaps `MatchMode`, then drops the procedure. Reset puts that state back and also waits for the production reviewer.
 - Cost page. The table stays empty until Cost Management for `rg-northlinedesk-uks` has been exported.
