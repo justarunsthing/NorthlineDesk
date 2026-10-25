@@ -371,6 +371,7 @@ resource budget 'Microsoft.Consumption/budgets@2024-08-01' = if (!empty(budgetEm
 
 output planName string = plan.name
 output sqlServerName string = sqlServer.name
+output sqlAdminLogin string = sqlServer.properties.administratorLogin
 output databaseName string = sqlDatabase.name
 output firewallRule string = azureServices.name
 output deskName string = desk.name

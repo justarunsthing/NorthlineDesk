@@ -21,7 +21,10 @@ load_outputs() {
   DESK="$(jq -r .deskName.value <<<"$json")"
   API="$(jq -r .apiName.value <<<"$json")"
   SQL_SERVER="$(jq -r .sqlServerName.value <<<"$json")"
-  SQL_LOGIN="$(jq -r .sqlAdminLogin.value <<<"$json")"
+  SQL_LOGIN="$(jq -r '.sqlAdminLogin.value // empty' <<<"$json")"
+    if [[ -z "$SQL_LOGIN" || "$SQL_LOGIN" == "null" ]]; then
+    SQL_LOGIN=northlineadmin
+    fi
   VAULT="$(jq -r .vaultName.value <<<"$json")"
   DESK_HOST="$(jq -r .deskHost.value <<<"$json")"
   API_HOST="$(jq -r .apiHost.value <<<"$json")"
