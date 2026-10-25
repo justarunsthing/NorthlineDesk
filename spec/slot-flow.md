@@ -25,7 +25,7 @@ flowchart TB
   sql --> api
 ```
 
-Production calls `dbo.usp_MatchInvoice` and shows £1,224.00. Staging calls `POST /match` and shows £612.00. The API has no slot. Its connection setting is `ConnectionStrings__Northline`, the ASP.NET Core name for the same Key Vault reference.
+Before the swap, production calls `dbo.usp_MatchInvoice` and shows £1,224.00. Staging calls `POST /match` and shows £612.00.
 
 ## What a swap exchanges
 

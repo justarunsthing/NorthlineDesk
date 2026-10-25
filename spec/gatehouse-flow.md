@@ -12,3 +12,4 @@ sequenceDiagram
     Gate->>+Repo: Scan tests, packages, SQL, and the agent folders
     Repo-->>-Gate: No rejected change
     Gate-->>-Dev: Gatehouse found nothing. Exit 0
+```

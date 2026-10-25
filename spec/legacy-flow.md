@@ -18,3 +18,4 @@ sequenceDiagram
     Procedure->>Procedure: Set unmatched to 0
     Procedure-->>Desk: Approved 1224.00, unmatched 0
     Desk-->>Clerk: Show £1,224.00 and 0 unmatched callouts
+```
