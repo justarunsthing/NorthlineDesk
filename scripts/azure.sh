@@ -114,7 +114,7 @@ promote() {
   wait_for "https://${DESK_HOST}/Match.aspx?invoice=INV-1001" 'data-decision-path="match-service"'
   wait_for "https://${DESK_HOST}/Match.aspx?invoice=INV-1001" '£612.00'
   local staging_body
-  staging_body="$(curl -fsS -o /tmp/staging.html -w '%{http_code}' "https://${STAGING_HOST}/Match.aspx?invoice=INV-1001" || true)"
+  staging_body="$(curl -sS -o /tmp/staging.html -w '%{http_code}' "https://${STAGING_HOST}/Match.aspx?invoice=INV-1001" || true)"
   if ! grep -q 'stored procedure is gone' /tmp/staging.html; then
     echo "Staging should now fail on the retired procedure. HTTP ${staging_body}." >&2
     cat /tmp/staging.html >&2 || true
