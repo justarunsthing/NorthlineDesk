@@ -328,7 +328,7 @@ resource matchPostTest 'Microsoft.Insights/webtests@2022-06-15' = {
     Request: {
       RequestUrl: matchPostUrl
       HttpVerb: 'POST'
-      RequestBody: '{"invoiceNumber":"INV-1001"}'
+      RequestBody: base64('{"invoiceNumber":"INV-1001"}')
       ParseDependentRequests: false
       FollowRedirects: true
       Headers: [
