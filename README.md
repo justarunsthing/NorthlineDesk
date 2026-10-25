@@ -51,13 +51,15 @@ Locally, `Cutover_story_against_sql` applies migration 001, sees £1,224.00 agai
 
 GitHub Actions runs those tests on every push, with SQL Server on the runner. A separate manual workflow scans `gate/fixtures` and finishes red on purpose. Deploy, promote, and reset are a third manual workflow. Deploy uses the `staging` environment and applies migration 001. Promote and reset use the `production` environment, which requires a reviewer. Promote records the ticket, swaps the slot, and only then drops the procedure. Reset puts the procedure and `MatchMode` back.
 
-The Azure account, the resource group, and the federated credential are the one-time setup in `docs/azure-setup.md`. The live slot swap waits on that setup. The local story does not.
+The UK South deployment has finished that promote. [Production Match](https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001) shows the match service, £612.00, and 6 unmatched. [Staging](https://nldesk-nar6kqrn-staging.azurewebsites.net/Match.aspx?invoice=INV-1001) reports that the stored procedure is gone. [Purchase order](https://nldesk-nar6kqrn.azurewebsites.net/PurchaseOrder.aspx) still shows John Doe. These addresses belong to resource group `rg-northlinedesk-uks` and stop when that group is deleted.
+
+The Azure account, the resource group, and the federated credential are the one-time setup in `docs/azure-setup.md`. The live slot swap needs that setup. The local story does not.
 
 ```bash
 dotnet test
 ```
 
-That covers the money, the gate, and the agent boundary. To run the cutover against SQL:
+That covers the money, the gate, and the agent boundary. GitHub Actions already runs the SQL cutover on every push. To run it on your own machine:
 
 ```bash
 docker compose up -d
@@ -69,7 +71,7 @@ The password is for this container only. The desk targets .NET Framework 4.8 and
 
 ## Conclusion
 
-The clerk's screen is the same screen. The decision behind INV-1001 changed from the invoiced £1,224.00 to the received £612.00, with 6 callouts left unmatched. The procedure remains available until a person has accepted that exact difference and the slot has swapped. After the swap, migration 002 removes it. The tests lock the figures. The harness bounds what an agent may change. The approval stays on the desk, with John Doe, where a person can see it and a tool cannot.
+The clerk's screen is the same screen. The decision behind INV-1001 changed from the invoiced £1,224.00 to the received £612.00, with 6 callouts left unmatched. The procedure stayed in place until a person accepted that exact difference and the slot swapped. Migration 002 then removed it. The tests lock the figures. The harness bounds what an agent may change. The approval stays on the desk, with John Doe, where a person can see it and a tool cannot.
 
 ## Read it in this order
 
@@ -86,4 +88,4 @@ The diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`
 9. `harness/` — the rule, the skill, the package list, and the MCP server.
 10. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
 11. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
-12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup. The cost table stays blank until a deploy is exported.
+12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup. The cost table stays empty. Cost analysis on 25 October 2026 had not indexed the new subscription yet.
