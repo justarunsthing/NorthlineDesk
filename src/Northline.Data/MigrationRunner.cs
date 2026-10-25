@@ -88,11 +88,20 @@ public static class MigrationRunner
     private static async Task EnsureDatabaseAsync(string connectionString, CancellationToken cancellationToken)
     {
         await using var connection = await OpenAsync(ConnectionStrings.ForMaster(connectionString), cancellationToken);
-        await using var command = new SqlCommand(
-            "IF DB_ID(N'NorthlineDesk') IS NULL CREATE DATABASE NorthlineDesk;",
+        await using var exists = new SqlCommand(
+            "SELECT 1 FROM sys.databases WHERE name = @Name;",
             connection);
 
-        await command.ExecuteNonQueryAsync(cancellationToken);
+        exists.Parameters.Add(new SqlParameter("@Name", ConnectionStrings.DatabaseName));
+
+        if (await exists.ExecuteScalarAsync(cancellationToken) is not null)
+            return;
+
+        await using var create = new SqlCommand(
+            "CREATE DATABASE NorthlineDesk;",
+            connection);
+
+        await create.ExecuteNonQueryAsync(cancellationToken);
     }
 
     private static async Task<bool> ObjectExistsAsync(
