@@ -33,4 +33,4 @@ sequenceDiagram
 
 `--through 1` is what a deploy applies. The procedure stays. `--explain` followed by `--through 2 --assert-retired` is what a promotion applies. `--reset-to 1` is only the rehearsal. A real promotion does not put the procedure back.
 
-The shadow comparison is not in this command. `Cutover_story_against_sql` writes `dbo.MatchShadow` and checks `promotionBlocked`. The promote job will do that check before it calls `--through 2`.
+The promote job posts `/shadow/INV-1001` and continues only when `promotionBlocked` is false, before it calls `--through 2`.

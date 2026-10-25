@@ -29,4 +29,24 @@ Order inside that job:
 5. Assert `OBJECT_ID(N'dbo.usp_MatchInvoice', N'P')` is null.
 6. Check production shows the match service and £612.00. Check staging says the procedure is gone.
 
+```mermaid
+sequenceDiagram
+    actor Reviewer
+    participant Actions as Promote job
+    participant SQL
+    participant API as Match API
+    participant Slot as Slot swap
+
+    Reviewer->>Actions: Approve the production environment
+    Actions->>SQL: Insert ticket partial-receipt
+    Actions->>API: POST /shadow/INV-1001
+    API-->>Actions: promotionBlocked false, 1224 against 612
+    Actions->>Slot: Swap staging into production
+    Note over Slot: Production MatchMode becomes Api
+    Actions->>SQL: Migration 002 drops usp_MatchInvoice
+    Actions->>SQL: OBJECT_ID is null
+    Actions->>Actions: Production shows 612.00
+    Actions->>Actions: Staging says the procedure is gone
+```
+
 Dropping the procedure before the swap would break the production page, which still calls it. The reset action restores the procedure, clears the shadow rows and the ticket, and puts `MatchMode` back. Reset is also behind the production environment, because it changes production.

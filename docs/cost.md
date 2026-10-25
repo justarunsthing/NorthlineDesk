@@ -1,5 +1,7 @@
 # Cost to serve
 
+Cost analysis was opened on 25 October 2026. The billing catalog had not indexed the new subscription yet, so the table below stays empty.
+
 Fill this from Cost Management for resource group `rg-northlinedesk-uks` after the plan has been running. Do not type a figure you have not exported.
 
 | Field | Value |

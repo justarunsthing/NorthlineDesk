@@ -44,4 +44,4 @@ sequenceDiagram
 
 `SqlConnection`, `MatchApiUrl`, Application Insights, and `WEBSITE_RUN_FROM_PACKAGE` are in `slotConfigNames`. Those six settings do not move. After the swap, production calls the match service. Migration 002 then drops the procedure, so the staging slot, now on `Procedure`, reports that the procedure is gone.
 
-The command that performs this swap is the promote workflow. It is not in the repo yet.
+The command that performs this swap is the promote job in `.github/workflows/deploy.yml`.

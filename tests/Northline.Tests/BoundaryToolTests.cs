@@ -21,7 +21,7 @@ public sealed class BoundaryToolTests
 
         Assert.False(result.IsError);
         Assert.Contains("6 received", result.Text, StringComparison.Ordinal);
-        Assert.DoesNotContain("Patel", result.Text, StringComparison.Ordinal);
+        Assert.DoesNotContain("John Doe", result.Text, StringComparison.Ordinal);
         Assert.DoesNotContain("REQ-1001", result.Text, StringComparison.Ordinal);
     }
 

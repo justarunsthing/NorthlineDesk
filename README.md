@@ -73,6 +73,8 @@ The clerk's screen is the same screen. The decision behind INV-1001 changed from
 
 ## Read it in this order
 
+The diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`, `spec/slot-flow.md`, and `docs/cutover.md`. GitHub renders them on the file page.
+
 1. `spec/match-invoice.md` — the support complaint and the numbers a test has to assert.
 2. `db/migrations/001_estate.sql` — the tables, the seed, and the procedure that returns £1,224.00.
 3. `src/Northline.Match/MatchCalculator.cs` and `ShadowGate.cs` — the £612.00 decision, and the only difference promotion may accept.

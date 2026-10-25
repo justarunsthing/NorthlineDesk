@@ -32,4 +32,8 @@ erDiagram
         nvarchar InvoiceNumber
         decimal LegacyApproved
         decimal ServiceApproved
+        int LegacyUnmatched
+        int ServiceUnmatched
+        nvarchar ExplainedByTicket
     }
+```
