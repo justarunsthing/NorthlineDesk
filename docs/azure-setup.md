@@ -64,7 +64,7 @@ P0v3 is one core and 4 GB, shared by the desk, the staging slot, and the API. St
 
 Auto-pause on Azure SQL cannot be shorter than 60 minutes. While this group is up it does not get a quiet hour: `/health` runs the match query, and the two availability tests call the Match page and `POST /match` every 15 minutes. There is one test location. Its population tag is `emea-ru-msa-edge`. That tag is historical. In the portal the location is UK South. Deleting the group is what stops the plan charge.
 
-Delete the resource group when you have copied the cost figure into `docs/cost.md`:
+The cost export for 25 October 2026 is in `docs/cost.md`. Delete the resource group when the live pages are no longer needed:
 
 ```bash
 az group delete --name rg-northlinedesk-uks --yes

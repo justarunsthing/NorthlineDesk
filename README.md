@@ -88,4 +88,4 @@ The diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`
 9. `harness/` — the rule, the skill, the package list, and the MCP server.
 10. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
 11. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
-12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup. The cost table stays empty. Cost analysis on 25 October 2026 had not indexed the new subscription yet.
+12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost export for 25 October 2026 (£5.43).
