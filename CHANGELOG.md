@@ -35,6 +35,5 @@ One bullet per commit.
 - The red Deploy runs, and the change that made each one pass, are in `docs/deploy-notes.md`.
 - Azure and GitHub setup checklist. The signup, the resource group, and the federated credential stay until the first deploy.
 - Cutover note. Promote records `partial-receipt`, swaps `MatchMode`, then drops the procedure. Reset puts that state back and also waits for the production reviewer.
-- Cost page. The table stays empty until Cost Management for `rg-northlinedesk-uks` has been exported.
 - Added README.md
 - 26 October 2026. Cost export for `rg-northlinedesk-uks` on 25 October 2026: £5.43. The App Service plan is £1.56, Azure SQL is £3.87, and Key Vault operations are £0.0002.
