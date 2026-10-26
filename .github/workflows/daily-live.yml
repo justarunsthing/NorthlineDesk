@@ -1,0 +1,26 @@
+name: Daily live check
+on:
+  schedule:
+    # 07:00 UTC, which is 7:00am UK time in winter. One run wakes SQL. It pauses again after 60 idle minutes.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST /match, then open the production page
+        run: |
+          set -euo pipefail
+          body="$(curl -fsS --retry 5 --retry-all-errors --retry-delay 20 --max-time 120 \
+            -X POST "https://nlapi-nar6kqrn.azurewebsites.net/match" \
+            -H 'Content-Type: application/json' \
+            -d '{"invoiceNumber":"INV-1001"}')"
+          echo "$body"
+          echo "$body" | jq -e '.approved == 612 and .unmatched == 6' >/dev/null
+          page="$(curl -fsS --retry 5 --retry-all-errors --retry-delay 15 --max-time 120 \
+            "https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001")"
+          grep -q '£612.00' <<<"$page"
+          grep -q 'data-decision-path="match-service"' <<<"$page"
+          echo "Production match is £612.00 with 6 unmatched."

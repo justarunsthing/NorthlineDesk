@@ -21,10 +21,7 @@ load_outputs() {
   DESK="$(jq -r .deskName.value <<<"$json")"
   API="$(jq -r .apiName.value <<<"$json")"
   SQL_SERVER="$(jq -r .sqlServerName.value <<<"$json")"
-  SQL_LOGIN="$(jq -r '.sqlAdminLogin.value // empty' <<<"$json")"
-    if [[ -z "$SQL_LOGIN" || "$SQL_LOGIN" == "null" ]]; then
-    SQL_LOGIN=northlineadmin
-    fi
+  SQL_LOGIN="$(jq -r .sqlAdminLogin.value <<<"$json")"
   VAULT="$(jq -r .vaultName.value <<<"$json")"
   DESK_HOST="$(jq -r .deskHost.value <<<"$json")"
   API_HOST="$(jq -r .apiHost.value <<<"$json")"
@@ -46,7 +43,7 @@ close_firewall() {
 }
 
 sql_connection() {
-  printf 'Server=tcp:%s.database.windows.net,1433;Initial Catalog=NorthlineDesk;User ID=%s;Password=%s;Encrypt=True;TrustServerCertificate=False;' \
+  printf 'Server=tcp:%s.database.windows.net,1433;Initial Catalog=NorthlineDesk;User ID=%s;Password=%s;Encrypt=True;TrustServerCertificate=False;Connect Timeout=90;' \
     "$SQL_SERVER" "$SQL_LOGIN" "$SQL_ADMIN_PASSWORD"
 }
 
@@ -114,7 +111,7 @@ promote() {
   wait_for "https://${DESK_HOST}/Match.aspx?invoice=INV-1001" 'data-decision-path="match-service"'
   wait_for "https://${DESK_HOST}/Match.aspx?invoice=INV-1001" '£612.00'
   local staging_body
-  staging_body="$(curl -sS -o /tmp/staging.html -w '%{http_code}' "https://${STAGING_HOST}/Match.aspx?invoice=INV-1001" || true)"
+  staging_body="$(curl -fsS -o /tmp/staging.html -w '%{http_code}' "https://${STAGING_HOST}/Match.aspx?invoice=INV-1001" || true)"
   if ! grep -q 'stored procedure is gone' /tmp/staging.html; then
     echo "Staging should now fail on the retired procedure. HTTP ${staging_body}." >&2
     cat /tmp/staging.html >&2 || true

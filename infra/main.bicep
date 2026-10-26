@@ -1,6 +1,6 @@
 // One resource group, UK South, one Windows plan.
-// The desk and the match API share this plan. The staging slot is the cutover.
-// Key Vault and the slot settings come next.
+// The desk and the match API share the plan. The staging slot is the cutover.
+// MatchMode is the only app setting that swaps. Everything else sticks to the slot.
 
 @description('Resource group location. The workflow refuses anything other than uksouth.')
 param location string = resourceGroup().location
@@ -25,9 +25,9 @@ param budgetStart string = '2026-10-01'
 
 var token = take(uniqueString(resourceGroup().id), 8)
 var planName = 'asp-nldesk-${token}'
-var sqlName = 'sql-nldesk-${token}'
 var deskName = 'nldesk-${token}'
 var apiName = 'nlapi-${token}'
+var sqlName = 'sql-nldesk-${token}'
 var vaultName = 'kvnldesk${token}'
 var workspaceName = 'log-nldesk-${token}'
 var insightsName = 'appi-nldesk-${token}'
@@ -47,6 +47,30 @@ resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   kind: 'windows'
   properties: {
     reserved: false
+  }
+}
+
+resource workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+  name: workspaceName
+  location: location
+  properties: {
+    sku: { name: 'PerGB2018' }
+    retentionInDays: 30
+    workspaceCapping: {
+      dailyQuotaGb: json('0.1')
+    }
+  }
+}
+
+resource insights 'Microsoft.Insights/components@2020-02-02' = {
+  name: insightsName
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: workspace.id
+    IngestionMode: 'LogAnalytics'
+    RetentionInDays: 30
   }
 }
 
@@ -150,35 +174,12 @@ resource api 'Microsoft.Web/sites@2023-12-01' = {
       minTlsVersion: '1.2'
       use32BitWorkerProcess: false
       http20Enabled: true
+      // The platform interval is one minute and is not configurable. /health must not open SQL.
       healthCheckPath: '/health'
       metadata: [
         { name: 'CURRENT_STACK', value: 'dotnet' }
       ]
     }
-  }
-}
-
-resource workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
-  name: workspaceName
-  location: location
-  properties: {
-    sku: { name: 'PerGB2018' }
-    retentionInDays: 30
-    workspaceCapping: {
-      dailyQuotaGb: json('0.1')
-    }
-  }
-}
-
-resource insights 'Microsoft.Insights/components@2020-02-02' = {
-  name: insightsName
-  location: location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: workspace.id
-    IngestionMode: 'LogAnalytics'
-    RetentionInDays: 30
   }
 }
 
@@ -284,8 +285,8 @@ resource matchPageTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     SyntheticMonitorId: 'nldesk-match-${token}'
     Name: 'Northline match page'
-    Description: 'GET the production Match page.'
-    Enabled: true
+    Description: 'GET the production Match page. Disabled: a standard test cannot run less often than every 5 minutes, so it cannot leave a 60 minute gap for auto-pause. The daily check is .github/workflows/daily-live.yml.'
+    Enabled: false
     Frequency: 900
     Timeout: 30
     Kind: 'standard'
@@ -316,8 +317,8 @@ resource matchPostTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     SyntheticMonitorId: 'nlapi-match-${token}'
     Name: 'Northline POST match'
-    Description: 'POST INV-1001 to the match service. The service approves £612.00.'
-    Enabled: true
+    Description: 'POST INV-1001 to the match service. The service approves £612.00. Disabled for the same reason as the Match page test.'
+    Enabled: false
     Frequency: 900
     Timeout: 30
     Kind: 'standard'
@@ -328,7 +329,7 @@ resource matchPostTest 'Microsoft.Insights/webtests@2022-06-15' = {
     Request: {
       RequestUrl: matchPostUrl
       HttpVerb: 'POST'
-      RequestBody: base64('{"invoiceNumber":"INV-1001"}')
+      RequestBody: '{"invoiceNumber":"INV-1001"}'
       ParseDependentRequests: false
       FollowRedirects: true
       Headers: [
@@ -369,18 +370,17 @@ resource budget 'Microsoft.Consumption/budgets@2024-08-01' = if (!empty(budgetEm
   }
 }
 
-output planName string = plan.name
-output sqlServerName string = sqlServer.name
-output sqlAdminLogin string = sqlServer.properties.administratorLogin
-output databaseName string = sqlDatabase.name
-output firewallRule string = azureServices.name
 output deskName string = desk.name
 output apiName string = api.name
+output sqlServerName string = sqlServer.name
+output sqlAdminLogin string = sqlAdminLogin
 output vaultName string = vault.name
-output stickySettingCount int = length(stickySettings.properties.appSettingNames)
 output deskHost string = desk.properties.defaultHostName
 output apiHost string = api.properties.defaultHostName
 output stagingHost string = '${desk.name}-staging.azurewebsites.net'
 output matchUrl string = matchUrl
+output databaseName string = sqlDatabase.name
+output firewallRule string = azureServices.name
 output matchTest string = matchPageTest.name
+output stickySettingCount int = length(stickySettings.properties.appSettingNames)
 output budgetName string = empty(budgetEmail) ? '' : budget.name

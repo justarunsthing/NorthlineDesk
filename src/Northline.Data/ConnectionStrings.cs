@@ -11,6 +11,8 @@ public static class ConnectionStrings
         var builder = new SqlConnectionStringBuilder(connectionString)
         {
             InitialCatalog = DatabaseName,
+            // Serverless resume after auto-pause is often about a minute.
+            ConnectTimeout = 90,
         };
 
         return builder.ConnectionString;

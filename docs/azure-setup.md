@@ -16,7 +16,7 @@ The workflow stops if the group is not in `uksouth`.
 
 Create an app registration, for example `northline-github`.
 
-Copy three identifiers:
+Copy two identifiers:
 
 - Application (client) ID → GitHub secret `AZURE_CLIENT_ID`
 - Directory (tenant) ID → GitHub secret `AZURE_TENANT_ID`
@@ -26,12 +26,12 @@ The object id is not the client id. Bicep puts the object id on the Key Vault ac
 
 ## 3. Federated credentials
 
-Add two federated credentials on the app registration. This repository was created after 15 July 2026, so the subject includes the owner id and the repository id.
+Add two federated credentials on the app registration. Replace `ORG/REPO` with the GitHub repository.
 
 | Credential name | Subject |
 | --- | --- |
-| `github-staging` | `repo:justarunsthing@207272569/NorthlineDesk@1432149576:environment:staging` |
-| `github-production` | `repo:justarunsthing@207272569/NorthlineDesk@1432149576:environment:production` |
+| `github-staging` | `repo:ORG/REPO:environment:staging` |
+| `github-production` | `repo:ORG/REPO:environment:production` |
 
 Issuer: `https://token.actions.githubusercontent.com`. Audience: `api://AzureADTokenExchange`.
 
@@ -56,15 +56,15 @@ Grant the enterprise application **Contributor** on `rg-northlinedesk-uks`. Cont
 
 Create `staging` with no required reviewer. Deploy uses it.
 
-Create `production` and add yourself as a required reviewer before the first promote. Promote and reset use it. If the environment is created by the first workflow run, it will not wait for you until you add the reviewer.
+Create `production` and add yourself as a required reviewer **before** the first promote. Promote and reset use it. If the environment is created by the first workflow run, it will not wait for you until you add the reviewer.
 
 ## 7. What you pay for
 
 P0v3 is one core and 4 GB, shared by the desk, the staging slot, and the API. Stopping the apps does not stop the plan charge.
 
-Auto-pause on Azure SQL cannot be shorter than 60 minutes. While this group is up it does not get a quiet hour: `/health` runs the match query, and the two availability tests call the Match page and `POST /match` every 15 minutes. There is one test location. Its population tag is `emea-ru-msa-edge`. That tag is historical. In the portal the location is UK South. Deleting the group is what stops the plan charge.
+Auto-pause on Azure SQL cannot be shorter than 60 minutes. App Service calls `/health` every minute, and that interval cannot be changed, so `/health` does not open SQL. Application Insights standard tests only allow 5, 10, or 15 minutes, which is too often for the pause, so both tests are disabled. Their location id is `emea-ru-msa-edge`. That tag is historical. In the portal the location is UK South. `.github/workflows/daily-live.yml` runs the Match page and `POST /match` once a day, and you can run it by hand before a call. After an hour with no visitor the vCore meter stops. The plan charge continues until the resource group is deleted. The first request after a pause waits up to 90 seconds for the database to resume.
 
-The cost export for 25 October 2026 is in `docs/cost.md`. Delete the resource group when the live pages are no longer needed:
+The cost reading is in `docs/cost.md`: signed up Sunday 25 October 2026, and £10.97 by Monday evening, the second day. Delete the resource group when the live pages are no longer needed:
 
 ```bash
 az group delete --name rg-northlinedesk-uks --yes

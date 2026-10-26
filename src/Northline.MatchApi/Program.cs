@@ -3,7 +3,6 @@ using Northline.Data;
 using Northline.Match;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -22,7 +21,9 @@ app.MapGet("/", () => Results.Text(
     "Northline match service. The desk is the Web Forms app. POST /match with {\"invoiceNumber\":\"INV-1001\"}.",
     "text/plain"));
 
-app.MapGet("/health", async (CancellationToken cancellationToken) =>
+// App Service calls this path every minute. That interval cannot be changed.
+// The handler stays on the process and does not open SQL, so a paused database can stay paused.
+app.MapGet("/health", () =>
 {
     if (vaultUnresolved)
         return Results.Json(new { status = "failed", detail = "The SQL connection has not resolved from Key Vault." }, statusCode: StatusCodes.Status503ServiceUnavailable);
@@ -30,15 +31,7 @@ app.MapGet("/health", async (CancellationToken cancellationToken) =>
     if (database is null)
         return Results.Ok(new { status = "ok", sql = "not-configured", mode = "in-memory-estate" });
 
-    try
-    {
-        _ = await database.MatchFromServiceAsync(CalloutEstate.InvoiceNumber, cancellationToken);
-        return Results.Ok(new { status = "ok", sql = "connected" });
-    }
-    catch (Exception exception)
-    {
-        return Results.Json(new { status = "failed", detail = exception.Message }, statusCode: StatusCodes.Status503ServiceUnavailable);
-    }
+    return Results.Ok(new { status = "ok", sql = "unchecked" });
 });
 
 app.MapGet("/match/{invoiceNumber}", (string invoiceNumber, CancellationToken cancellationToken) =>

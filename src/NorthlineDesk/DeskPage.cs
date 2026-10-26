@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 
@@ -10,7 +11,17 @@ namespace NorthlineDesk
 
         protected string ConnectionString
         {
-            get { return System.Configuration.ConfigurationManager.AppSettings["SqlConnection"] ?? string.Empty; }
+            get
+            {
+                var value = System.Configuration.ConfigurationManager.AppSettings["SqlConnection"] ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(value) || value.IndexOf("@Microsoft.KeyVault", StringComparison.Ordinal) >= 0)
+                    return value;
+
+                var builder = new SqlConnectionStringBuilder(value);
+                if (builder.ConnectTimeout < 90)
+                    builder.ConnectTimeout = 90;
+                return builder.ConnectionString;
+            }
         }
 
         protected void Fail(string message)
@@ -31,9 +42,7 @@ namespace NorthlineDesk
         {
             if (string.IsNullOrWhiteSpace(value))
                 return fallback;
-
             var trimmed = value.Trim().ToUpperInvariant();
-
             return SafeNumber.IsMatch(trimmed) ? trimmed : fallback;
         }
     }
