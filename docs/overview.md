@@ -1,3 +1,7 @@
+# Overview
+
+The clerk's screen stays. The match service is built beside the procedure. A person promotes, and the slot swap carries `MatchMode`.
+
 ```mermaid
 flowchart TB
   subgraph legacy [1. Legacy behaviour. This is still the live desk]

@@ -4,6 +4,16 @@ Northline maintains a depot desk for callout work. A supplier does the work, the
 
 This repository keeps that screen and replaces the decision behind it. The invoice in the story is INV-1001.
 
+## Live
+
+The UK South deployment has finished that promote.
+
+- [Production match](https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001) shows the match service, £612.00, and 6 unmatched.
+- [Staging match](https://nldesk-nar6kqrn-staging.azurewebsites.net/Match.aspx?invoice=INV-1001) reports that the stored procedure is gone.
+- [Purchase order](https://nldesk-nar6kqrn.azurewebsites.net/PurchaseOrder.aspx) still shows John Doe.
+
+These addresses belong to resource group `rg-northlinedesk-uks` and stop when that group is deleted.
+
 ## The problem
 
 PO-1001 orders 12 callouts from Heston Mechanical at the Reading depot, at £102.00 net each. REC-1001 records that callouts 1 to 6 arrived. INV-1001 bills all 12.
@@ -51,8 +61,6 @@ Locally, `Cutover_story_against_sql` applies migration 001, sees £1,224.00 agai
 
 GitHub Actions runs those tests on every push, with SQL Server on the runner. A separate manual workflow scans `gate/fixtures` and finishes red on purpose. Deploy, promote, and reset are a third manual workflow. Deploy uses the `staging` environment and applies migration 001. Promote and reset use the `production` environment, which requires a reviewer. Promote records the ticket, swaps the slot, and only then drops the procedure. Reset puts the procedure and `MatchMode` back.
 
-The UK South deployment has finished that promote. [Production Match](https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001) shows the match service, £612.00, and 6 unmatched. [Staging](https://nldesk-nar6kqrn-staging.azurewebsites.net/Match.aspx?invoice=INV-1001) reports that the stored procedure is gone. [Purchase order](https://nldesk-nar6kqrn.azurewebsites.net/PurchaseOrder.aspx) still shows John Doe. These addresses belong to resource group `rg-northlinedesk-uks` and stop when that group is deleted.
-
 The Azure account, the resource group, and the federated credential are the one-time setup in `docs/azure-setup.md`. The live slot swap needs that setup. The local story does not.
 
 ```bash
@@ -75,17 +83,18 @@ The clerk's screen is the same screen. The decision behind INV-1001 changed from
 
 ## Read it in this order
 
-The diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`, `spec/slot-flow.md`, and `docs/cutover.md`. GitHub renders them on the file page. The before and after count is `docs/estate-count.md`.
+The whole cutover is `docs/overview.md`. The closer diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`, `spec/slot-flow.md`, and `docs/cutover.md`. The before and after count is `docs/estate-count.md`.
 
-1. `spec/match-invoice.md` — the support complaint and the numbers a test has to assert.
-2. `db/migrations/001_estate.sql` — the tables, the seed, and the procedure that returns £1,224.00.
-3. `src/Northline.Match/MatchCalculator.cs` and `ShadowGate.cs` — the £612.00 decision, and the only difference promotion may accept.
-4. `tests/Northline.Tests` — the figures, the one-penny drift, the procedure text, the gate, and the MCP refusal.
-5. `src/Northline.MatchApi/Program.cs` — `POST /match` and `POST /shadow/{invoice}`.
-6. `src/NorthlineDesk/Match.aspx.cs` — the desk calls the procedure or the service. It does not calculate the money.
-7. `src/NorthlineDesk/PurchaseOrder.aspx.cs` — twelve lines, six received, and John Doe.
-8. `tools/Northline.Gatehouse` and `gate/fixtures` — what a bad generated change looks like.
-9. `harness/` — the rule, the skill, the package list, and the MCP server.
-10. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
-11. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
-12. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost export for 25 October 2026 (£5.43).
+1. `docs/overview.md` — legacy desk, the service built beside it, the two slots, the reviewed swap, and the result.
+2. `spec/match-invoice.md` — the support complaint and the numbers a test has to assert.
+3. `db/migrations/001_estate.sql` — the tables, the seed, and the procedure that returns £1,224.00.
+4. `src/Northline.Match/MatchCalculator.cs` and `ShadowGate.cs` — the £612.00 decision, and the only difference promotion may accept.
+5. `tests/Northline.Tests` — the figures, the one-penny drift, the procedure text, the gate, and the MCP refusal.
+6. `src/Northline.MatchApi/Program.cs` — `POST /match` and `POST /shadow/{invoice}`.
+7. `src/NorthlineDesk/Match.aspx.cs` — the desk calls the procedure or the service. It does not calculate the money.
+8. `src/NorthlineDesk/PurchaseOrder.aspx.cs` — twelve lines, six received, and John Doe.
+9. `tools/Northline.Gatehouse` and `gate/fixtures` — what a bad generated change looks like.
+10. `harness/` — the rule, the skill, the package list, and the MCP server.
+11. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
+12. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
+13. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost export for 25 October 2026 (£5.43).

@@ -37,4 +37,4 @@ One bullet per commit.
 - Cutover note. Promote records `partial-receipt`, swaps `MatchMode`, then drops the procedure. Reset puts that state back and also waits for the production reviewer.
 - Added README.md
 - 26 October 2026. Cost export for `rg-northlinedesk-uks` on 25 October 2026: £5.43. The App Service plan is £1.56, Azure SQL is £3.87, and Key Vault operations are £0.0002.
-- Added overview.md with the flowchart of the cutover story, and a note that the cutover is not yet tested against SQL Server.
+- 26 October 2026. Overview diagram in `docs/overview.md`: the legacy desk, the match service built beside it, both slots, the reviewed swap, and the result.
