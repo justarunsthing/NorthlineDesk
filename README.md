@@ -8,9 +8,9 @@ This repository keeps that screen and replaces the decision behind it. The invoi
 
 The UK South deployment has finished that promote.
 
-- <a href="https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001" target="_blank" rel="noopener noreferrer">Production match</a> shows the match service, £612.00, and 6 unmatched.
-- <a href="https://nldesk-nar6kqrn-staging.azurewebsites.net/Match.aspx?invoice=INV-1001" target="_blank" rel="noopener noreferrer">Staging match</a> reports that the stored procedure is gone.
-- <a href="https://nldesk-nar6kqrn.azurewebsites.net/PurchaseOrder.aspx" target="_blank" rel="noopener noreferrer">Purchase order</a> still shows John Doe.
+- [Production match](https://nldesk-nar6kqrn.azurewebsites.net/Match.aspx?invoice=INV-1001) shows the match service, £612.00, and 6 unmatched.
+- [Staging match](https://nldesk-nar6kqrn-staging.azurewebsites.net/Match.aspx?invoice=INV-1001) reports that the stored procedure is gone.
+- [Purchase order](https://nldesk-nar6kqrn.azurewebsites.net/PurchaseOrder.aspx) still shows John Doe.
 
 These addresses belong to resource group `rg-northlinedesk-uks` and stop when that group is deleted.
 
