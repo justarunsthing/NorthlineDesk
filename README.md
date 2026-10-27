@@ -97,4 +97,4 @@ The whole cutover is `docs/overview.md`. The closer diagrams are in `db/estate.m
 10. `harness/` — the rule, the skill, the package list, and the MCP server.
 11. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
 12. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
-13. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost reading from signup on Sunday 25 October 2026 through Monday evening, the second day (£10.97).
+13. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost reading from signup on Sunday 25 October 2026 through 05:40 UK time on Tuesday 27 October, the third day (£14.35).
