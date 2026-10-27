@@ -38,3 +38,6 @@ One bullet per commit.
 - Added README.md
 - 26 October 2026. Cost export for `rg-northlinedesk-uks` on 25 October 2026: £5.43. The App Service plan is £1.56, Azure SQL is £3.87, and Key Vault operations are £0.0002.
 - 26 October 2026. Overview diagram in `docs/overview.md`: the legacy desk, the match service built beside it, both slots, the reviewed swap, and the result.
+- 26 October 2026. `/health` stays on the process and does not open SQL. The two availability tests are disabled, because a standard test cannot run less often than every 5 minutes. `.github/workflows/daily-live.yml` checks the live match once a day.
+- 26 October 2026. Cost reading for `rg-northlinedesk-uks` on the evening of 26 October, the second day since signup on Sunday 25 October: £10.97. The App Service plan is £2.95 and Azure SQL is £7.93.
+- 27 October 2026. Cost reading at 05:40 UK time, the third day: £14.35. The App Service plan is £3.95, Azure SQL is £10.31, and Azure Monitor is £0.09.
