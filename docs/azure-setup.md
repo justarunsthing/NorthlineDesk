@@ -64,7 +64,7 @@ P0v3 is one core and 4 GB, shared by the desk, the staging slot, and the API. St
 
 Auto-pause on Azure SQL cannot be shorter than 60 minutes. App Service calls `/health` every minute, and that interval cannot be changed, so `/health` does not open SQL. Application Insights standard tests only allow 5, 10, or 15 minutes, which is too often for the pause, so both tests are disabled. Their location id is `emea-ru-msa-edge`. That tag is historical. In the portal the location is UK South. `.github/workflows/daily-live.yml` runs the Match page and `POST /match` once a day, and you can run it by hand before a call. After an hour with no visitor the vCore meter stops. The plan charge continues until the resource group is deleted. The first request after a pause waits up to 90 seconds for the database to resume.
 
-The cost reading is in `docs/cost.md`: signed up Sunday 25 October 2026, and £14.35 by 05:40 UK time on Tuesday 27 October, the third day. Delete the resource group when the live pages are no longer needed:
+The cost reading is in `docs/cost.md`: signed up Sunday 25 October 2026, and £20.07 by 05:45 UK time on Wednesday 28 October, the fourth day. Delete the resource group when the live pages are no longer needed:
 
 ```bash
 az group delete --name rg-northlinedesk-uks --yes
