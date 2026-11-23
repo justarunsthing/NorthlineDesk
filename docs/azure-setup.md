@@ -71,3 +71,31 @@ az group delete --name rg-northlinedesk-uks --yes
 ```
 
 `budgetStart` in `infra/main.bicepparam` must be the first day of the current month when you deploy.
+
+## What was deployed
+
+Captured on 23 November 2026, while `rg-northlinedesk-uks` was still in the subscription. The Bicep token in the names is `nar6kqrn`. Everything in the list is in UK South, except the Application Insights Smart Detection action group, which the portal showed as Global.
+
+| Resource | Name |
+| --- | --- |
+| Desk | `nldesk-nar6kqrn` |
+| Staging slot | `nldesk-nar6kqrn/staging` |
+| Match API | `nlapi-nar6kqrn` |
+| App Service plan | `asp-nldesk-nar6kqrn` |
+| SQL server | `sql-nldesk-nar6kqrn` |
+| SQL database | `NorthlineDesk` |
+| Key Vault | `kvnldesknar6kqrn` |
+| Log Analytics workspace | `log-nldesk-nar6kqrn` |
+| Application Insights | `appi-nldesk-nar6kqrn` |
+| Desk availability test | `nldesk-match-nar6kqrn` |
+| API availability test | `nlapi-match-nar6kqrn` |
+
+![Resource group rg-northlinedesk-uks](screenshots/resource-group.png)
+
+The hosts were:
+
+- https://nldesk-nar6kqrn.azurewebsites.net
+- https://nldesk-nar6kqrn-staging.azurewebsites.net
+- https://nlapi-nar6kqrn.azurewebsites.net
+
+The pages those hosts returned are in the README and in `docs/cutover.md`. The subscription credit banner that afternoon showed £35.01 remaining, expiring 24 November 2026. That figure is the free-credit balance. It is not the cost of this group. See `docs/cost.md`.

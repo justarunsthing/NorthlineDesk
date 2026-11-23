@@ -50,3 +50,17 @@ sequenceDiagram
 ```
 
 Dropping the procedure before the swap would break the production page, which still calls it. The reset action restores the procedure, clears the shadow rows and the ticket, and puts `MatchMode` back. Reset is also behind the production environment, because it changes production.
+
+## What the slots showed on 23 November 2026
+
+The hosts were `nldesk-nar6kqrn.azurewebsites.net` and `nldesk-nar6kqrn-staging.azurewebsites.net`. The match API was `nlapi-nar6kqrn.azurewebsites.net`.
+
+Production `Match.aspx?invoice=INV-1001` showed decision path match service, approved net £612.00, and 6 unmatched callouts.
+
+![Production match for INV-1001](screenshots/desk-match-production.png)
+
+Staging showed this, which is the check at the end of promote:
+
+![Staging match after the procedure was retired](screenshots/desk-match-staging.png)
+
+`GET /health` returned `{"status":"ok","sql":"connected"}`. `GET /match/INV-1001` returned approved `612.0000`, unmatched `6`, and `decisionPath` `match-service`. That is the state after the swap has carried `MatchMode` and migration 002 has dropped `dbo.usp_MatchInvoice`.

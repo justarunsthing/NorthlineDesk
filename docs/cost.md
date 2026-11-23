@@ -2,6 +2,10 @@
 
 Read from Cost analysis for resource group `rg-northlinedesk-uks` at 05:40 UK time on Tuesday 27 October 2026. The Azure account was opened on Sunday 25 October 2026, so this is the third day. The 23 October mark on the chart is an axis label. Cost analysis lags, so Tuesday's portion can still move.
 
+On 23 November 2026 the subscription banner showed £35.01 in credits remaining, expiring 24 November 2026. That is the free-credit balance for the subscription. It is not an export of `rg-northlinedesk-uks`, so the table below stays the October reading.
+
+![Subscription credits on 23 November 2026](screenshots/subscription-credits.png)
+
 | Field | Value |
 | --- | --- |
 | Signed up | Sunday 25 October 2026 |

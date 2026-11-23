@@ -6,6 +6,7 @@ One bullet per commit.
 
 ### Added
 
+- 23 November 2026. Screenshots of the live UK South estate before the free credits expire. Production was on the match service at £612.00 and 6 unmatched callouts. Staging reported that the procedure was gone. The £35.01 credit balance is the subscription remainder, recorded beside the October cost export.
 - 24 October 2026. Repository skeleton and the support complaint for INV-1001. The tests have to assert £612.00 and 6 unmatched callouts.
 - Estate migration and diagram: supplier, purchase order, receipt, and invoice tables, the PO-1001 seed, `dbo.usp_MatchInvoice`, and `db/estate.md`.
 - Retirement migration that drops `dbo.usp_MatchInvoice` after the cutover.

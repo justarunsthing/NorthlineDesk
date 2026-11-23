@@ -81,6 +81,40 @@ The password is for this container only. The desk targets .NET Framework 4.8 and
 
 The clerk's screen is the same screen. The decision behind INV-1001 changed from the invoiced £1,224.00 to the received £612.00, with 6 callouts left unmatched. The procedure stayed in place until a person accepted that exact difference and the slot swapped. Migration 002 then removed it. The tests lock the figures. The harness bounds what an agent may change. The approval stays on the desk, with John Doe, where a person can see it and a tool cannot.
 
+## Recorded on 23 November 2026
+
+The free subscription credits expire on 24 November 2026. These pages were still answering that afternoon, from resource group `rg-northlinedesk-uks` in UK South. The generated token in the resource names is `nar6kqrn`. The screenshots are the record for after the group is deleted. Names and the portal list are in `docs/azure-setup.md`. The £35.01 figure in `docs/cost.md` is the subscription credit balance. The October cost export stays as it was.
+
+| Surface | Host |
+| --- | --- |
+| Production desk | https://nldesk-nar6kqrn.azurewebsites.net |
+| Staging slot | https://nldesk-nar6kqrn-staging.azurewebsites.net |
+| Match API | https://nlapi-nar6kqrn.azurewebsites.net |
+
+The Reading depot page is the clerk's front door.
+
+![Reading depot desk](docs/screenshots/desk-home.png)
+
+Production `Match.aspx?invoice=INV-1001` is on the match service. Approved net is £612.00. Unmatched callouts are 6.
+
+![Production match for INV-1001](docs/screenshots/desk-match-production.png)
+
+The purchase order still shows John Doe, the invoiced £1,224.00, and the received £612.00. Callouts 7 to 12 are the unmatched lines.
+
+![Purchase order PO-1001](docs/screenshots/desk-purchase-order.png)
+
+Staging is still `MatchMode` Procedure. The procedure has been dropped, so the page says so.
+
+![Staging match after the procedure was retired](docs/screenshots/desk-match-staging.png)
+
+`GET /health` returned `{"status":"ok","sql":"connected"}`.
+
+![Match service health](docs/screenshots/api-health.png)
+
+`GET /match/INV-1001` returned approved `612.0000`, unmatched `6`, and decision path `match-service`. The service writes that body on one line. The line breaks in the picture are only so the fields can be read.
+
+![Match API response for INV-1001](docs/screenshots/api-match-inv-1001.png)
+
 ## Read it in this order
 
 The whole cutover is `docs/overview.md`. The closer diagrams are in `db/estate.md`, `spec/legacy-flow.md`, `spec/shadow-flow.md`, `spec/slot-flow.md`, and `docs/cutover.md`. The before and after count is `docs/estate-count.md`.
@@ -97,4 +131,4 @@ The whole cutover is `docs/overview.md`. The closer diagrams are in `db/estate.m
 10. `harness/` — the rule, the skill, the package list, and the MCP server.
 11. `infra/main.bicep` and `docs/cutover.md` — one plan, the slot, and the setting a swap carries.
 12. `.github/workflows/deploy.yml` and `scripts/azure.sh` — deploy, then a person promotes.
-13. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, and the cost reading from signup on Sunday 25 October 2026 through 05:45 UK time on Wednesday 28 October, the fourth day (£20.07).
+13. `docs/azure-setup.md` and `docs/cost.md` — the one-time account setup, the cost reading from signup on Sunday 25 October 2026 through 05:45 UK time on Wednesday 28 October, the fourth day (£20.07), and the 23 November screenshots.
